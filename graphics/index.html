@@ -1,0 +1,127 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Home</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS to center-align text within the navigation links */
+        .navbar-nav {
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-navbar {
+            height: 40px;
+            width: 50%; /* Adjust the width as needed */
+            margin: 0 auto; /* To center-align the navbar horizontally */
+            margin-top: 20px;
+            background-color: #baa4f6 !important; /* Background color for the navbar (blue in this example) */
+            border-radius: 10px;
+        }
+        .nav-link {
+            color: #fff !important; /* Text color for the navigation links (white in this example) */
+        }
+        body {
+            background-color: #ebdeff; /* Background color for the entire page (light gray in this example) */
+        }
+        .container h1{
+            margin-top: 220px; /* Adjust this value to move the text down */
+            font-size: 60px;
+            font-family: Georgia;
+        }
+        .container h2{
+            font-size: 50px;
+            font-family: Georgia;
+        }
+        .container p{
+            font-size: 20px;
+            font-family: Georgia;
+        }
+        .image-Aus {
+            left: 14%; /* Use percentage-based positioning for left */
+            top: 25%; /* Use percentage-based positioning for top */
+            position: absolute;
+            max-width: 16%;
+            height: auto;
+            padding: 10px;
+        }
+
+        .image-Azer {
+            right: 12%; /* Use percentage-based positioning for right */
+            top: 25%; /* Use percentage-based positioning for top */
+            position: absolute;
+            max-width: 16%;
+            height: auto;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4 text-center align-items-center"> <!-- Add align-items-center class -->
+        <h1 class="text-center">Australia v/s Azerbaijan</h1> 
+        <h2 class="text-center">Dashboard</h2> 
+        <p class="text-center">|Select a graphic from the navigation menu above|</p> 
+        <a href="map.html"><img src="../Image/Australia.png" alt="Australia Map" class="image-Aus">
+        <a href="map.html"><img src="../Image/Azerbaijan.png" alt="Azerbaijan Map" class="image-Azer">
+        <!-- Navigation menu -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar">
+            <ul class="navbar-nav justify-content-center"> <!-- Add justify-content-center class here -->
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a> <!-- Add Home option that links to index.html -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="table.html">Table</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="bar_chart.html">Bar Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="bubble_chart.html">Bubble Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="map.html">Proportional Symbol Map</a>
+                </li>
+            </ul>
+        </nav>
+        <div style="margin-top: 110px; margin-left: -40px; border: 2px solid rgba(0, 0, 0, 0.5); max-width: 300px; padding: 10px; background-color: #e6dfff; float: left; border-radius: 10px;">
+            <p style="color: black; font-family: Georgia; font-size: 20px;">Canberra Population (2022)</p>
+            <a href="table.html" style="color: black; text-decoration: none; font-family: Georgia; font-weight: bold; font-size: 20px;">467,000</a>
+        </div>
+        <div style="margin-top: 110px; margin-right: -40px; border: 2px solid rgba(0, 0, 0, 0.5); max-width: 250px; padding: 10px; background-color: #e6dfff; float: right; border-radius: 10px;">
+            <p style="color: black; font-family: Georgia; font-size: 20px;">Baku Population (2022)</p>
+            <a href="table.html" style="color: black; text-decoration: none; font-family: Georgia; font-weight: bold; font-size: 20px;">2,401,000</a>
+        </div>
+        <!-- Wrap the text in an anchor tag with the href attribute set to the bar chart page -->
+        <!-- Move the text down and place it in a container -->
+        <div class="container mt-4 text-center align-items-center" style="margin-top: 170px; margin-right: -300px;">
+            <div style="border: 2px solid rgba(0, 0, 0, 0.5); max-width: 500px; padding: 10px; background-color: #e6dfff; border-radius: 10px; margin-top: 50px;">
+                <a href="bar_chart.html" style="color: black; text-decoration: none; font-family: Georgia; font-weight: bold; font-size: 20px;">2010 to 2015 Life Expectancy Increase</a>
+                <p class="text-center">0.6 years - Australia & 2.0 years - Azerbaijan</p>
+            </div>
+        </div>
+        <!-- Move the text down and place it in a container -->
+        <div class="container mt-4 text-center align-items-center" style="margin-top: 220px; margin-right: -300px;">
+            <div style="border: 2px solid rgba(0, 0, 0, 0.5); max-width: 500px; padding: 5px; background-color: #e6dfff; border-radius: 10px;">
+                <a href="bubble_chart.html" style="color: black; text-decoration: none; font-family: Georgia; font-weight: bold; font-size: 20px;">Current Population Density</a>
+                <p class="text-center">Australia | Azerbaijan</p>
+                <p class="text-center">3.42 people/Km2 | 126 people/Km2</p>
+            </div>
+        </div>
+    </div>    
+
+<!-- Include Bootstrap JS and any additional scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

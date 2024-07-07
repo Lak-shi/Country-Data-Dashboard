@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3 Data Join Tables</title>
+    <style>
+        /* Center the tables */
+        .center-table {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 100% of the viewport height */
+        }
+
+        /* Style for individual tables */
+        .table-container {
+            width: 45%; /* Set the width of each table container */
+            margin: 20px; /* Add some margin for spacing */
+            display: inline-block; /* Display tables next to each other */
+        }
+
+        table {
+            width: 100%; /* Ensure tables occupy 100% width of their containers */
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            padding: 12px; /* Increase padding for better spacing */
+            text-align: center; /* Center-align content */
+        }
+
+        th {
+            background-color: #0a0042bb; /* Header background color */
+            color: white; /* Header text color */
+        }
+
+        tr:nth-child(even) {
+            background-color: #e0ddff; /* Alternate row background color */
+        }
+
+        /* Style for the frame */
+        .frame {
+            border: 2px solid #0a0042bb; /* Frame border */
+            padding: 20px; /* Padding around the frame */
+            border-radius: 10px; /* Rounded corners for the frame */
+            height: 60vh;
+            width: 100%;
+            overflow-x: auto; /* Enable horizontal scrolling if needed */
+        }
+
+        /* Style for clickable links */
+        .link {
+            text-decoration: underline; /* Add underline to links */
+            color: blue; /* Change link color */
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+
+        /* Style for the navigation bar */
+        .navbar {
+            background-color: #0a0042bb;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .navbar a {
+            float: left;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        body {
+            background-color: #f7f1ff; /* Background color for the entire page (light gray in this example) */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="table.html">Table</a>
+        <a href="bar_chart.html">Bar Chart</a>
+        <a href="bubble_chart.html">Bubble Chart</a>
+        <a href="map.html">Proportional Symbol Map</a>
+    </div>
+
+    <div class="center-table">
+        <!-- Frame around the tables -->
+        <div class="frame">
+            <!-- First Table Container -->
+            <div class="table-container">
+                <table id="ex_1_4">
+                    <!-- Table content will be generated with D3.js -->
+                </table>
+            </div>
+
+            <!-- Second Table Container -->
+            <div class="table-container">
+                <table id="ex_2_4">
+                    <!-- Table content will be generated with D3.js -->
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <script>
+        // Data for the first table
+        var data1 = [
+        { Country: '<a href="https://en.wikipedia.org/wiki/Canberra">Australia</a>', Year: 2005, 'Capital City': 'Canberra', 'Capital_city_Population(thousands)': 366 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Canberra">Australia</a>', Year: 2010, 'Capital City': 'Canberra', 'Capital_city_Population(thousands)': 398 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Canberra">Australia</a>', Year: 2015, 'Capital City': 'Canberra', 'Capital_city_Population(thousands)': 429 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Canberra">Australia</a>', Year: 2018, 'Capital City': 'Canberra', 'Capital_city_Population(thousands)': 448 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Baku">Azerbaijan</a>', Year: 2005, 'Capital City': 'Baku', 'Capital_city_Population(thousands)': 1867 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Baku">Azerbaijan</a>', Year: 2010, 'Capital City': 'Baku', 'Capital_city_Population(thousands)': 2062 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Baku">Azerbaijan</a>', Year: 2015, 'Capital City': 'Baku', 'Capital_city_Population(thousands)': 2206 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Baku">Azerbaijan</a>', Year: 2018, 'Capital City': 'Baku', 'Capital_city_Population(thousands)': 2286 },
+        ];
+
+        // Data for the second table
+        var data2 = [
+            { Country: '<a href="https://en.wikipedia.org/wiki/Australia">Australia</a>', Year: 2005, 'Urban population (percent)': 84.6 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Australia">Australia</a>', Year: 2010, 'Urban population (percent)': 85.2 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Australia">Australia</a>', Year: 2015, 'Urban population (percent)': 85.7 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Australia">Australia</a>', Year: 2018, 'Urban population (percent)': 86.0 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Azerbaijan">Azerbaijan</a>', Year: 2005, 'Urban population (percent)': 52.4 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Azerbaijan">Azerbaijan</a>', Year: 2010, 'Urban population (percent)': 53.4 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Azerbaijan">Azerbaijan</a>', Year: 2015, 'Urban population (percent)': 54.7 },
+            { Country: '<a href="https://en.wikipedia.org/wiki/Azerbaijan">Azerbaijan</a>', Year: 2018, 'Urban population (percent)': 55.7 },
+        ];
+
+        // Function to create a table
+        function createTable(containerId, data) {
+            var table = d3.select(containerId);
+
+            // Create table header row
+            var thead = table.append('thead');
+            thead.append('tr')
+                .selectAll('th')
+                .data(Object.keys(data[0]))
+                .enter()
+                .append('th')
+                .text(d => d);
+
+            // Create table body rows
+            var tbody = table.append('tbody');
+            var rows = tbody.selectAll('tr')
+                .data(data)
+                .enter()
+                .append('tr');
+
+            // Populate table cells with data
+            var cells = rows.selectAll('td')
+                .data(function (row) {
+                    return Object.values(row);
+                })
+                .enter()
+                .append('td')
+                .html(function (d) {
+                    return d;
+                }); // Use .html to render anchor tags
+        }
+
+        // Create the first table
+        createTable('#ex_1_4', data1);
+
+        // Create the second table
+        createTable('#ex_2_4', data2);
+    </script>
+</body>
+</html>
+
+
+
+
+

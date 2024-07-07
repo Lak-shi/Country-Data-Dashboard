@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proportional Symbol Map</title>
+    <style>
+        /* Style for map SVG */
+        #world-map-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+        #world-map {
+            width: 100%;
+            padding: 10;
+            height: auto;
+        }
+        /* Style for circles representing data points */
+        .data-point {
+            opacity: 0.7;
+        }
+        /* Style for the "Jump to Year" menu */
+        #jump-to-year {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            background-color: rgba(231, 226, 251, 0.8);
+            padding: 5px;
+            border-radius: 5px;
+        }
+        #jump-to-year ul {
+            list-style: none;
+            padding: 0;
+        }
+        #jump-to-year ul li {
+            margin: 5px 0;
+        }
+        /* Style for the frame */
+        #frame {
+            fill: none;
+            border: 2px;
+            border-radius: 10px;
+            stroke: black;
+            stroke-width: 2;
+        }
+                /* Style for the navigation bar */
+        .navbar {
+            background-color: #0a0042bb;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .navbar a {
+            float: left;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        body {
+            background-color: #f7f1ff; /* Background color for the entire page (light gray in this example) */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="table.html">Table</a>
+        <a href="bar_chart.html">Bar Chart</a>
+        <a href="bubble_chart.html">Bubble Chart</a>
+        <a href="map.html">Proportional Symbol Map</a>
+    </div>
+
+    <!-- Add top margin to the title to prevent overlap -->
+    <h1 style="margin-top: 50px;">World Symbol Map</h1>
+
+
+    <!-- Include D3.js -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- Container for the SVG and "Jump to Year" menu -->
+    <div id="world-map-container">
+        <!-- "Jump to Year" menu -->
+        <div id="jump-to-year">
+            <h2>Series Choice</h2>
+            <select id="data-type" onchange="updateData()">
+                <option value="refugees">Total Refugees</option>
+                <option value="migrant-stock">International Migrants</option>
+            </select>
+            <select id="year-selector" onchange="showYear()">
+                <option value="2005">2005</option>
+                <option value="2010">2010</option>
+                <option value="2015">2015</option>
+                <option value="2020">2020</option>
+            </select>
+        </div>
+
+        <!-- Load the world map SVG -->
+        <svg id="world-map" viewBox="0 0 800 400">
+            <!-- Rectangle frame around the SVG image -->
+            <rect id="frame" x="0" y="0" width="800" height="400"></rect>
+            
+            <!-- Background image -->
+            <image xlink:href="../world.svg" width="800" height="400" />
+        </svg>
+    </div>
+
+    <script>
+        // Sample data (latitude, longitude, value, country, year, and data type)
+        var data = [
+            { lat: -45.2744, lon: 120.7751, value: 64964, country: 'Australia', year: '2005', dataType: 'refugees' }, // Australia 2005 Refugees
+            { lat: -45.2744, lon: 120.7751, value: 21805, country: 'Australia', year: '2010', dataType: 'refugees' }, // Australia 2010 Refugees
+            { lat: -45.2744, lon: 120.7751, value: 35582, country: 'Australia', year: '2015', dataType: 'refugees' }, // Australia 2015 Refugees
+            { lat: -45.2744, lon: 120.7751, value: 58607, country: 'Australia', year: '2020', dataType: 'refugees' }, // Australia 2020 Refugees
+            { lat: 31.6431, lon: 37.5769, value: 3004, country: 'Azerbaijan', year: '2005', dataType: 'refugees' }, // Azerbaijan 2005 Refugees
+            { lat: 31.6431, lon: 37.5769, value: 1891, country: 'Azerbaijan', year: '2010', dataType: 'refugees' }, // Azerbaijan 2010 Refugees
+            { lat: 31.6431, lon: 37.5769, value: 1357, country: 'Azerbaijan', year: '2015', dataType: 'refugees' }, // Azerbaijan 2015 Refugees
+            { lat: 31.6431, lon: 37.5769, value: 1120, country: 'Azerbaijan', year: '2020', dataType: 'refugees' }, // Azerbaijan 2020 Refugees
+            { lat: -45.2744, lon: 120.7751, value: 4878030, country: 'Australia', year: '2005', dataType: 'migrant-stock' }, // Australia 2005 Migrant Stock
+            { lat: -45.2744, lon: 120.7751, value: 5882980, country: 'Australia', year: '2010', dataType: 'migrant-stock' }, // Australia 2010 Migrant Stock
+            { lat: -45.2744, lon: 120.7751, value: 6729730, country: 'Australia', year: '2015', dataType: 'migrant-stock' }, // Australia 2015 Migrant Stock
+            { lat: -45.2744, lon: 120.7751, value: 7685860, country: 'Australia', year: '2020', dataType: 'migrant-stock' }, // Australia 2020 Migrant Stock
+            { lat: 31.6431, lon: 37.5769, value: 301834, country: 'Azerbaijan', year: '2005', dataType: 'migrant-stock' }, // Azerbaijan 2005 Migrant Stock
+            { lat: 31.6431, lon: 37.5769, value: 276901, country: 'Azerbaijan', year: '2010', dataType: 'migrant-stock' }, // Azerbaijan 2010 Migrant Stock
+            { lat: 31.6431, lon: 37.5769, value: 264359, country: 'Azerbaijan', year: '2015', dataType: 'migrant-stock' }, // Azerbaijan 2015 Migrant Stock
+            { lat: 31.6431, lon: 37.5769, value: 252228, country: 'Azerbaijan', year: '2020', dataType: 'migrant-stock' }, // Azerbaijan 2020 Migrant Stock
+        ];
+
+        // Define a color scale based on country names or codes
+        var colorScale = d3.scaleOrdinal()
+            .domain(data.map(d => d.country))
+            .range(['#9370DB', '#8B008B']); // Add more colors as needed
+
+        // Create a D3 projection for geographic coordinates
+        var projection = d3.geoMercator()
+            .scale(150)
+            .translate([400, 200]);
+
+        // Create an SVG group for the map elements
+        var map = d3.select("#world-map");
+
+        // Create circles for data points with colors based on country
+        var circles = map.selectAll(".data-point")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("class", "data-point")
+            .attr("cx", d => projection([d.lon, d.lat])[0])
+            .attr("cy", d => projection([d.lon, d.lat])[1])
+            .attr("r", d => {
+                // Increase the radius by a factor of 10 for "Total refugees and people in refugee"
+                if (d.dataType === 'refugees') {
+                    return Math.sqrt(d.value) / 10;
+                } else {
+                    return Math.sqrt(d.value) / 50; // Radius for "International migrant: Both sexes"
+                }
+            })
+            .style("fill", d => colorScale(d.country)) // Set circle color based on country
+            .on("mouseover", function(d) {
+                // Show tooltip on mouseover
+                var tooltip = d3.select("#tooltip");
+                tooltip.html(`<strong>${d.country}</strong><br>${d.dataType}: ${d.value}`);
+                tooltip.style("left", (d3.event.pageX + 10) + "px")
+                    .style("top", (d3.event.pageY - 10) + "px")
+                    .style("display", "block");
+            })
+            .on("mouseout", function() {
+                // Hide tooltip on mouseout
+                var tooltip = d3.select("#tooltip");
+                tooltip.style("display", "none");
+            });
+
+        // Function to show data for a specific year and data type
+        function showYear() {
+            var selectedYear = document.getElementById("year-selector").value;
+            var selectedDataType = document.getElementById("data-type").value;
+
+            // Hide all circles
+            circles.style("display", "none");
+
+            // Show the circles for the selected year and data type
+            circles
+                .filter(d => d.year === selectedYear && d.dataType === selectedDataType)
+                .style("display", "block");
+        }
+
+        showYear();
+    </script>
+    <!-- Tooltip element -->
+    <div id="tooltip" style="position: absolute; display: none; background: rgba(255, 255, 255, 0.8); padding: 5px; border-radius: 5px; pointer-events: none;"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

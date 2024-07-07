@@ -1,0 +1,49 @@
+Country,Year,Capital City,Pop_Capital_city_(thousands)
+Azerbaijan,2005,Baku,"1,867"
+Azerbaijan,2010,Baku,"2,062"
+Azerbaijan,2015,Baku,"2,206"
+Azerbaijan,2018,Baku,"2,286"
+Australia,2005,Canberra,366
+Australia,2010,Canberra,398
+Australia,2015,Canberra,429
+Australia,2018,Canberra,448
+
+Country,Year,Urban population (percent)
+Australia,2005,84.6
+Australia,2010,85.2
+Australia,2015,85.7
+Australia,2018,86.0
+Azerbaijan,2005,52.4
+Azerbaijan,2010,53.4
+Azerbaijan,2015,54.7
+Azerbaijan,2018,55.7
+
+Country,Year,Life expectancy at birth for both sexes (years)
+Australia,2010,82.1
+Azerbaijan,2010,69.5
+Australia,2015,82.7
+Azerbaijan,2015,71.5
+Australia,2017,83.0
+Azerbaijan,2017,72.2
+
+"Population, density and surface area",,,
+Country,Year,Population density,Population mid-year estimates (millions)
+Australia,2010,2.9,22.02
+Australia,2015,3.1,23.82
+Australia,2020,3.3,25.67
+Australia,2022,3.4,26.18
+Azerbaijan,2010,111.8,9.24
+Azerbaijan,2015,119.3,9.86
+Azerbaijan,2020,124.4,10.29
+Azerbaijan,2022,125.3,10.36
+
+International migrants and refugees,,,
+Country,Year,International migrant stock: Both sexes (number),Total refugees and people in refugee-like situations (number)
+Australia,2005,"48,78,030","64,964"
+Australia,2010,"58,82,980","21,805"
+Australia,2015,"67,29,730","35,582"
+Australia,2020,"76,85,860","58,607"
+Azerbaijan,2005,"3,01,834","3,004"
+Azerbaijan,2010,"2,76,901","1,891"
+Azerbaijan,2015,"2,64,359","1,357"
+Azerbaijan,2020,"2,52,228","1,120"

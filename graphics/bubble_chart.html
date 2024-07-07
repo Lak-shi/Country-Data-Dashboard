@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Chart</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Set the height of the body to the viewport height */
+        }
+
+        h1 {
+            margin-bottom: 20px; /* Add space below the title */
+        }
+
+        circle.dot {
+            fill-opacity: 0.7;
+        }
+        .chart-container {
+            border: 2px solid #000000; /* Add a border around the chart container */
+            border-radius: 10px;
+        }
+        .chart {
+            width: 800px;
+            height: 600px;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 12px;
+        }
+        /* Style for the navigation bar */
+        .navbar {
+            background-color: #0a0042bb;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .navbar a {
+            float: left;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        body {
+            background-color: #f7f1ff; /* Background color for the entire page (light gray in this example) */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="table.html">Table</a>
+        <a href="bar_chart.html">Bar Chart</a>
+        <a href="bubble_chart.html">Bubble Chart</a>
+        <a href="map.html">Proportional Symbol Map</a>
+    </div>
+    <h1>Population Bubble Chart</h1>
+
+    <!-- Create a container for the chart -->
+    <div class="chart-container">
+        <!-- Set background color for debugging -->
+        <svg class="chart" id="bubble_chart"></svg>
+    </div>
+
+    <div class="tooltip" id="tooltip" style="display: none;"></div>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script>
+        var dataset = [
+            { Country: 'Australia', Year: 2010, PopulationDensity: 2.9, PopulationMidYear: 22.02 },
+            { Country: 'Australia', Year: 2015, PopulationDensity: 3.1, PopulationMidYear: 23.82 },
+            { Country: 'Australia', Year: 2020, PopulationDensity: 3.3, PopulationMidYear: 25.67 },
+            { Country: 'Australia', Year: 2022, PopulationDensity: 3.4, PopulationMidYear: 26.18 },
+            { Country: 'Azerbaijan', Year: 2010, PopulationDensity: 111.8, PopulationMidYear: 9.24 },
+            { Country: 'Azerbaijan', Year: 2015, PopulationDensity: 119.3, PopulationMidYear: 9.86 },
+            { Country: 'Azerbaijan', Year: 2020, PopulationDensity: 124.4, PopulationMidYear: 10.29 },
+            { Country: 'Azerbaijan', Year: 2022, PopulationDensity: 125.3, PopulationMidYear: 10.36 }
+        ];
+
+        var margin = { top: 20, right: 30, bottom: 60, left: 70 }; // Increased bottom margin for y-axis labels
+        var width = 800 - margin.left - margin.right;
+        var height = 600 - margin.top - margin.bottom;
+
+        var svg = d3.select('#bubble_chart')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+        // Define the specific years you want to show on the x-axis
+        var specificYears = [2010, 2015, 2020, 2022];
+
+        // Define the specific y-axis tick values
+        var specificYTicks = [0, 10, 20, 30];
+
+        // Define scales
+        var xScale = d3.scaleLinear()
+            .domain([d3.min(specificYears), d3.max(specificYears)])
+            .range([0, width]);
+
+        var yScale = d3.scaleLinear()
+            .domain([0, 30]) // Set the y-axis domain to 0 to 30
+            .range([height, 0]);
+
+        var radiusScale = d3.scaleSqrt()
+            .domain([0, d3.max(dataset, d => d.PopulationDensity)])
+            .range([3, 15]);
+
+        var colorScale = d3.scaleOrdinal()
+            .domain(dataset.map(d => d.Country))
+            .range(['#9370DB', '#8B008B']); // Add more colors as needed
+
+        // Add circles to represent data points with tooltips
+        svg.selectAll('circle')
+            .data(dataset)
+            .enter()
+            .append('circle')
+            .attr('cx', d => xScale(d.Year))
+            .attr('cy', d => yScale(d.PopulationMidYear))
+            .attr('r', d => radiusScale(d.PopulationDensity*4))
+            .attr('class', 'dot')
+            .style('fill', d => colorScale(d.Country))
+            .on('mouseover', function(d) {
+                // Show tooltip on mouseover
+                d3.select('#tooltip')
+                    .style('display', 'block')
+                    .html(`<strong>${d.Country}</strong><br>Year: ${d.Year}<br>Population Density: ${d.PopulationDensity}<br>Population Mid-Year: ${d.PopulationMidYear}`)
+                    .style('left', (d3.event.pageX + 10) + 'px')
+                    .style('top', (d3.event.pageY - 10) + 'px');
+            })
+            .on('mouseout', function() {
+                // Hide tooltip on mouseout
+                d3.select('#tooltip').style('display', 'none');
+            });
+
+        // Add x-axis
+        svg.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(0,' + height + ')')
+            .call(d3.axisBottom(xScale).tickValues(specificYears));
+
+        // Add y-axis with specific tick values
+        svg.append('g')
+            .attr('class', 'axis')
+            .call(d3.axisLeft(yScale).tickValues(specificYTicks));
+
+        // Add x-axis label with padding
+        svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', height + margin.bottom - 10) // Added padding here
+            .style('text-anchor', 'middle')
+            .text('Year');
+
+        // Add y-axis label with padding
+        svg.append('text')
+            .attr('x', -margin.left - 200) // Added padding here
+            .attr('y', height / 20 - 60)
+            .attr('transform', 'rotate(-90)')
+            .style('text-anchor', 'middle')
+            .text('Population Mid-Year Estimates (millions)');
+
+        // Add legend
+        var legend = svg.selectAll('.legend')
+            .data(Array.from(new Set(dataset.map(d => d.Country))))
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+            .attr('transform', (d, i) => 'translate(0,' + (i * 20) + ')');
+
+        legend.append('rect')
+            .attr('x', width - 18)
+            .attr('width', 18)
+            .attr('height', 18)
+            .style('fill', colorScale);
+
+        legend.append('text')
+            .attr('x', width - 24)
+            .attr('y', 9)
+            .attr('dy', '.35em')
+            .style('text-anchor', 'end')
+            .text(d => d);
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 1122.5197 793.70081"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1">
+    <rect
+       style="fill:#d6aae8;fill-opacity:1;stroke-width:0.902514"
+       id="rect1"
+       width="1119.0327"
+       height="796.94269"
+       x="1.8405155"
+       y="-1.8405118" />
+    <rect
+       style="fill:#ab50d0;fill-opacity:1;stroke-width:1.00157"
+       id="rect2"
+       width="357.05978"
+       height="141.7196"
+       x="360.74081"
+       y="230.0643"
+       ry="0" />
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:33.6209px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';fill:#ab50d0;fill-opacity:1;stroke-width:2.10461"
+       x="459.68512"
+       y="331.00574"
+       id="text2"
+       transform="scale(0.97922583,1.0212149)"><tspan
+         id="tspan2"
+         x="459.68512"
+         y="331.00574"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:78.4488px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#140719;fill-opacity:1;stroke-width:2.10461">Title</tspan></text>
+    <rect
+       style="fill:#140719;fill-opacity:1;stroke-width:1.00157"
+       id="rect3"
+       width="522.70605"
+       height="60.736973"
+       x="288.96075"
+       y="403.07266" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:37.3333px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#140719;fill-opacity:1;stroke-width:1.00157"
+       x="390.18906"
+       y="443.56396"
+       id="text3"><tspan
+         id="tspan3"
+         x="390.18906"
+         y="443.56396"
+         style="fill:#f9f9f9">Navigation Bar</tspan></text>
+  </g>
+</svg>
